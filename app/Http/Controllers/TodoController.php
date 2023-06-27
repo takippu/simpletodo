@@ -53,7 +53,7 @@ class TodoController extends Controller
         $todo->description = 'null';
         $todo->save();
 
-        session()->flash('success', 'Todo created succesfully');
+        session()->flash('success', 'new things added!');
 
         return redirect('/');
     }
@@ -87,6 +87,13 @@ class TodoController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $list = Todo::findOrFail($id);
+        
+        // Perform any additional checks or authorization before deleting
+    
+        $list->delete();
+
+        // Optionally, you can return a response or redirect to a specific page
+        return redirect()->back()->with('successdelete', 'List item deleted successfully.');
     }
 }

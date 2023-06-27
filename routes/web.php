@@ -18,4 +18,6 @@ use Illuminate\Support\Facades\Route;
 //     return view('index');
 // });
 
-Route::resource('', TodoController::class);
+Route::resource('/', TodoController::class)->parameters([
+    '' => 'todo'
+]);
