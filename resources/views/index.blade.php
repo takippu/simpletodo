@@ -1,8 +1,6 @@
 @extends('layouts.app')
 
-@section('title')
-  Simple2Do
-@endsection
+
 
 @section('content')
 <!--
@@ -21,8 +19,27 @@
     <div class="relative bg-white px-6 pb-8 pt-10 shadow-xl ring-1 ring-gray-900/5 sm:mx-auto sm:max-w-lg sm:rounded-lg sm:px-10">
       <div class="mx-auto max-w-md">
         <!-- <img src="/img/logo.svg" class="h-6" alt="Tailwind Play" /> -->
-        <h2 class="dark:text-dark text-4xl font-extrabold">Simple2Do</h2>
+        <div class="container mx-auto">
+          <div class="flex justify-between items-start">
+            <div class="w-1/2 p-4">
+              <h2 class="dark:text-dark text-4xl font-extrabold">Simple2Do</h2>
+            </div>
+            <div class="w-1/2 p-4">
+              <h2 class="text-2xl font-bold"></h2>
+      
+            </div>
+            @guest
+            <div class="p-4">
+              <h2 class="text-2xl font-bold"><a href="/login">log in</a> or <a href="/register">register</a></h2> 
+              
+              <!-- Add your log in form or button here -->
+            </div>
+            @endguest
+          </div>
+        </div>
         <div class="divide-y divide-gray-300/50">
+          @auth
+            
           <div class="space-y-6 py-8 text-base leading-7 text-gray-600">
             <p>ur2do list :-</p>
             <ul class="space-y-4">
@@ -30,7 +47,7 @@
               @forelse ($todo as $todolist)
                 <li class="flex items-center">
                   <p class="ml-4">{{ __($todolist->name) }}</p>
-                  <form action="{{ route('destroy', $todolist->id) }}" method="POST">
+                  <form action="{{ route('todos.destroy', $todolist->id) }}" method="POST">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="ml-auto flex-grow text-red-500">
@@ -67,7 +84,7 @@
             @endif
             <form action="{{ route('store') }}" method="POST">   
               @csrf
-              <label for="search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
+              <label for="search" class="mb-2 text-sm font-medium text-gray-900 sr-only">Search</label>
               <div class="relative">
                   <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -75,11 +92,13 @@
                     </svg>
                   </div>
                   <input type="text" id="name" name="name" class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500" placeholder="add new 2 do" required>
-                  <button type="submit" class="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add</button>
+                  <button type="submit" class="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2">Add</button>
               </div>
             </form>
 
           </div>
+
+          @endauth  
         </div>
       </div>
     </div>
