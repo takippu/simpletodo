@@ -13,11 +13,14 @@ class TodoController extends Controller
      */
     public function index()
     {
-        $todo = Todo::all();
+        // $todo = Todo::all();
+
+        $posts = auth()->user()->todolist()->get();
+
 
         return view('index', 
         
-        ['todo' => $todo]);
+        ['todo' => $posts]);
     }
 
     /**
@@ -33,26 +36,37 @@ class TodoController extends Controller
      */
     public function store(Request $request)
     {
-        try {
-            $this->validate(request(), [
-                'name' => ['required'],
-                // 'description' => ['required']
-            ]);
-        } catch (ValidationException $e) {
-        }
+        // try {
+        //     $this->validate(request(), [
+        //         'name' => ['required'],
+        //         // 'description' => ['required']
+        //     ]);
+        // } catch (ValidationException $e) {
+        // }
 
-        
-        
+    
+        // $data = request()->all();
+        // $todo = new Todo();
+        // //On the left is the field name in DB and on the right is field name in Form/view
+        // $todo->name = $data['name'];
+        // $todo->description = 'null';
+        // $todo->save();
 
-        $data = request()->all();
+        // session()->flash('success', 'new things added!');
 
+        // return redirect('/');
 
-        $todo = new Todo();
-        //On the left is the field name in DB and on the right is field name in Form/view
-        $todo->name = $data['name'];
-        $todo->description = 'null';
-        $todo->save();
+         //security purpose
+         $request->validate([
+            'name' => ['required'],
+        ]);
+    
+        Todo::create([
+            'name' => $request->name,
+            'user_id' => auth()->id(),
+            'description' => null,
 
+        ]);
         session()->flash('success', 'new things added!');
 
         return redirect('/');
@@ -95,5 +109,7 @@ class TodoController extends Controller
 
         // Optionally, you can return a response or redirect to a specific page
         return redirect()->back()->with('successdelete', 'List item deleted successfully.');
+
+
     }
 }

@@ -11,11 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('todo', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-            $table->string('name'); //I added the name column
-            $table->text('description')->nullable(); //I added the description column
+        Schema::table('todo', function (Blueprint $table) {
+            $table->string('user_id');
+
         });
     }
 
@@ -24,6 +22,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('todos');
+        Schema::table('todo', function (Blueprint $table) {
+            //
+        });
     }
 };

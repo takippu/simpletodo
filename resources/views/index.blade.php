@@ -45,23 +45,31 @@
             <ul class="space-y-4">
 
               @forelse ($todo as $todolist)
-                <li class="flex items-center">
-                  <p class="ml-4">{{ __($todolist->name) }}</p>
-                  <form action="{{ route('todos.destroy', $todolist->id) }}" method="POST">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="ml-auto flex-grow text-red-500">
-                      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                      </svg>
-                    </button>
-                  </form>
-                </li>
+                @if ($todolist->user_id == auth()->user()->id) {{-- Assuming user_id is the foreign key for the user --}}
+                  <li class="flex items-center">
+                    <p class="ml-4">{{ __($todolist->name) }}</p>
+                    <form action="{{ route('todos.destroy', $todolist->id) }}" method="POST">
+                      @csrf
+                      @method('DELETE')
+                      <button type="submit" class="ml-auto flex-grow text-red-500">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                      </button>
+                    </form>
+                  </li>
+                @else
+                  <li class="flex items-center">
+                    <p class="ml-4">{{ __("Seems like you still didn't add anything..") }}</p>
+                  </li>
+                  @break
+                @endif
               @empty
                 <li class="flex items-center">
                   <p class="ml-4">{{ __('Empty..') }}</p>
                 </li>
               @endforelse
+
 
    
             </ul>
