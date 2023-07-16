@@ -10,4 +10,8 @@ class Todo extends Model
     protected $table = 'todo';
 
     use HasFactory;
+
+    public function usertodo(){
+        return $this->belongsTo(User::class);
+    }
 }
