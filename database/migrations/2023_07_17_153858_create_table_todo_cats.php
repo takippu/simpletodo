@@ -11,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('todo', function (Blueprint $table) {
-            $table->string('user_id');
-
+        Schema::create('todo_cats', function (Blueprint $table) {
+            $table->id();
+            $table->string('todo_id');
+            $table->string('category_name')->nullable();
+            $table->timestamps();
         });
     }
 
@@ -22,8 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('todo', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('todo_cats');
     }
 };

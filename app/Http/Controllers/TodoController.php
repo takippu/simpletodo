@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Todo;
+use App\Models\TodoCategory;
+use App\Models\UserTodoCategory;
 use Dotenv\Exception\ValidationException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TodoController extends Controller
 {
@@ -14,13 +17,20 @@ class TodoController extends Controller
     public function index()
     {
         // $todo = Todo::all();
-
-        $posts = auth()->user()->todolist()->get();
+        if (Auth::check()) {
+            $posts = auth()->user()->todoList()->get();
+            $cats = auth()->user()->userCats()->get();
+        }else{
+            $posts = null;
+            $cats = null;
+        }
 
 
         return view('index', 
         
-        ['todo' => $posts]);
+        ['todo' => $posts,
+        'categories' => $cats,        
+        ]);
     }
 
     /**
@@ -111,5 +121,26 @@ class TodoController extends Controller
         return redirect()->back()->with('successdelete', 'List item deleted successfully.');
 
 
+    }
+
+
+
+    //Add New Category
+    public function addCategory(Request $request)
+    {
+         //security purpose
+         $request->validate([
+            'name' => ['required'],
+        ]);
+    
+        UserTodoCategory::create([
+            'category' => $request->name,
+            'user_id' => auth()->id(),
+
+
+        ]);
+        session()->flash('success', 'new things added!');
+
+        return redirect('/');
     }
 }

@@ -22,7 +22,7 @@
         <div class="container mx-auto">
           <div class="flex justify-between items-start">
             <div class="w-1/2 p-4">
-              <h2 class="dark:text-dark text-4xl font-extrabold">Simple2Do</h2>
+              <h2 class="dark:text-dark text-4xl font-bold">Simple2Do</h2>
             </div>
             <div class="w-1/2 p-4">
               <h2 class="text-2xl font-bold"></h2>
@@ -30,7 +30,7 @@
             </div>
             @guest
             <div class="p-4">
-              <h2 class="text-2xl font-bold"><a href="/login">log in</a> or <a href="/register">register</a></h2> 
+              <h2 class="text-sm font-bold"><a href="/login" class="text-blue-700">log in</a> or <a href="/register" class="text-blue-700">register</a></h2> 
               
               <!-- Add your log in form or button here -->
             </div>
@@ -42,9 +42,79 @@
             
           <div class="space-y-6 py-8 text-base leading-7 text-gray-600">
             <p>ur2do list :-</p>
+            <!--Tabs navigation-->
+            <ul
+              class="mb-5 flex list-none flex-row flex-wrap border-b-0 pl-0"
+              role="tablist"
+              data-te-nav-ref>
+              <li role="presentation" class="flex-auto text-center">
+                <a
+                  href="#tabs-home01"
+                  class="my-2 block border-x-0 border-b-2 border-t-0 border-transparent px-7 pb-3.5 pt-4 text-xs font-medium uppercase leading-tight text-neutral-500 hover:isolate hover:border-transparent hover:bg-neutral-100 focus:isolate focus:border-transparent data-[te-nav-active]:border-primary data-[te-nav-active]:text-primary dark:text-neutral-400 dark:hover:bg-transparent dark:data-[te-nav-active]:border-primary-400 dark:data-[te-nav-active]:text-primary-400"
+                  data-te-toggle="pill"
+                  data-te-target="#tabs-home01"
+                  data-te-nav-active
+                  role="tab"
+                  aria-controls="tabs-home01"
+                  aria-selected="true"
+                  >All</a
+                >
+              </li>
+              @foreach ($categories as $data)
+                @if ($data->user_id == auth()->user()->id) 
+                <li role="presentation">
+                  <a
+                    href="#tabs-{{ $data->id }}"
+                    class="focus:border-transparen my-2 block border-x-0 border-b-2 border-t-0 border-transparent px-7 pb-3.5 pt-4 text-xs font-medium uppercase leading-tight text-neutral-500 hover:isolate hover:border-transparent hover:bg-neutral-100 focus:isolate data-[te-nav-active]:border-primary data-[te-nav-active]:text-primary dark:text-neutral-400 dark:hover:bg-transparent dark:data-[te-nav-active]:border-primary-400 dark:data-[te-nav-active]:text-primary-400"
+                    data-te-toggle="pill"
+                    data-te-target="#tabs-{{ $data->id }}"
+                    role="tab"
+                    aria-controls="tabs-{{ $data->id }}"
+                    aria-selected="false"
+                    >{{ $data->category }}</a
+                  >
+                </li>
+                @endif
+              @endforeach
+              <li role="presentation" class="flex-auto text-center">
+                
+                <a
+                  href="#tabs-contact01"
+                  class="my-2 block border-x-0 border-b-2 border-t-0 border-transparent px-0 pb-3.5 pt-4 text-xs font-medium uppercase leading-tight text-neutral-500 hover:isolate hover:border-transparent hover:bg-neutral-100 focus:isolate focus:border-transparent data-[te-nav-active]:border-primary data-[te-nav-active]:text-primary dark:text-neutral-400 dark:hover:bg-transparent dark:data-[te-nav-active]:border-primary-400 dark:data-[te-nav-active]:text-primary-400"
+                  data-te-toggle="modal"
+                  data-te-target="#exampleModal"
+                  data-te-ripple-init
+                  data-te-ripple-color="light"
+                  ><i class="fas fa-plus mr-2"></i></a
+                >
+              </li>
+            </ul>
+            @include('index.category-modal')
+            <!--Tabs content-->
+            <div class="mb-6">
+              <div
+                class="hidden opacity-100 transition-opacity duration-150 ease-linear data-[te-tab-active]:block"
+                id="tabs-home01"
+                role="tabpanel"
+                aria-labelledby="tabs-home-tab01"
+                data-te-tab-active>
+                Tab 1 content
+              </div>
+              @foreach ($categories as $data)
+                @if ($data->user_id == auth()->user()->id) 
+                <div
+                  class="hidden opacity-0 transition-opacity duration-150 ease-linear data-[te-tab-active]:block"
+                  id="tabs-{{ $data->id }}"
+                  role="tabpanel"
+                  aria-labelledby="tabs-{{ $data->id }}">
+                  Tab 2 content
+                </div>
+                @endif
+              @endforeach
+            </div>
             <ul class="space-y-4">
 
-              @forelse ($todo as $todolist)
+              @foreach ($todo as $todolist)
                 @if ($todolist->user_id == auth()->user()->id) {{-- Assuming user_id is the foreign key for the user --}}
                   <li class="flex items-center">
                     <p class="ml-4">{{ __($todolist->name) }}</p>
@@ -64,11 +134,8 @@
                   </li>
                   @break
                 @endif
-              @empty
-                <li class="flex items-center">
-                  <p class="ml-4">{{ __('Empty..') }}</p>
-                </li>
-              @endforelse
+
+              @endforeach
 
 
    

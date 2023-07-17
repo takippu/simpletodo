@@ -15,4 +15,8 @@ class Todo extends Model
     public function usertodo(){
         return $this->belongsTo(User::class);
     }
+
+    public function todoCategory(){
+        return $this->belongsTo(TodoCategory::class);
+    }
 }
