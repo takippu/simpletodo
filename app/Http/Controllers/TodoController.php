@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Todo;
 use App\Models\TodoCategory;
+use App\Models\TodoList;
 use App\Models\UserTodoCategory;
 use Dotenv\Exception\ValidationException;
 use Illuminate\Http\Request;
@@ -21,8 +23,8 @@ class TodoController extends Controller
             // $posts = auth()->user()->todoList()->get();
             // $cats = auth()->user()->userCats()->get();
 
-            $posts = Todo::where('user_id', auth()->user()->id)->get();
-            $cats = UserTodoCategory::where('user_id',auth()->user()->id)->get();
+            $posts = TodoList::where('user_id', auth()->user()->id)->get();
+            $cats = Category::where('user_id',auth()->user()->id)->get();
 
         }else{
             $posts = null;
@@ -72,22 +74,17 @@ class TodoController extends Controller
 
          //security purpose
          $request->validate([
-            'name' => ['required'],
+            'todoAdd' => ['required'],
         ]);
-    
-        $todo = Todo::create([
-            'name' => $request->name,
+        
+        // $get = $request->all();
+        // dd($get);
+        TodoList::create([
+            'todo' => $request->todoAdd,
             'user_id' => auth()->id(),
-            'description' => null,
-
+            'category_id' => is_null($request->category) ? '99' : $request->category,
         ]);
 
-        $todo->todoCategory()->create([
-            'todo_id' => $todo->id,
-            'category_name' => $todo->name,
-            
-            // Add other relevant category fields here
-        ]);
 
 
         session()->flash('success', 'new things added!');
@@ -124,7 +121,7 @@ class TodoController extends Controller
      */
     public function destroy(string $id)
     {
-        $list = Todo::findOrFail($id);
+        $list = TodoList::findOrFail($id);
         
         // Perform any additional checks or authorization before deleting
     
@@ -146,8 +143,8 @@ class TodoController extends Controller
             'name' => ['required'],
         ]);
     
-        UserTodoCategory::create([
-            'category' => $request->name,
+        Category::create([
+            'category_name' => $request->name,
             'user_id' => auth()->id(),
 
 

@@ -71,7 +71,7 @@
                     role="tab"
                     aria-controls="tabs-{{ $data->id }}"
                     aria-selected="false"
-                    >{{ $data->category }}</a
+                    >{{ $data->category_name }}</a
                   >
                 </li>
                 @endif
@@ -92,54 +92,16 @@
             @include('index.category-modal')
             <!--Tabs content-->
             <div class="mb-6">
-              <div
-                class="hidden opacity-100 transition-opacity duration-150 ease-linear data-[te-tab-active]:block"
-                id="tabs-home01"
-                role="tabpanel"
-                aria-labelledby="tabs-home-tab01"
-                data-te-tab-active>
-                Tab 1 content
-              </div>
+
+              @include('index.all-list')
+
               @foreach ($categories as $data)
                 @if ($data->user_id == auth()->user()->id) 
-                <div
-                  class="hidden opacity-0 transition-opacity duration-150 ease-linear data-[te-tab-active]:block"
-                  id="tabs-{{ $data->id }}"
-                  role="tabpanel"
-                  aria-labelledby="tabs-{{ $data->id }}">
-                  Tab 2 content
-                </div>
+                  @include('index.alt-list')
                 @endif
               @endforeach
             </div>
-            <ul class="space-y-4">
-
-              @foreach ($todo as $todolist)
-                @if ($todolist->user_id == auth()->user()->id) {{-- Assuming user_id is the foreign key for the user --}}
-                  <li class="flex items-center">
-                    <p class="ml-4">{{ __($todolist->name) }}</p>
-                    <form action="{{ route('todos.destroy', $todolist->id) }}" method="POST">
-                      @csrf
-                      @method('DELETE')
-                      <button type="submit" class="ml-auto flex-grow text-red-500">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                      </button>
-                    </form>
-                  </li>
-                @else
-                  <li class="flex items-center">
-                    <p class="ml-4">{{ __("Seems like you still didn't add anything..") }}</p>
-                  </li>
-                  @break
-                @endif
-
-              @endforeach
-
-
-   
-            </ul>
+            
           </div>
           <div class="pt-8 text-base font-semibold leading-7">
             <p class="text-gray-900">i have something to do</p>
@@ -166,14 +128,14 @@
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
                     </svg>
                   </div>
-                  <input type="text" id="name" name="name" class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500" placeholder="add new 2 do" required>
+                  <input type="text" id="todoAdd" name="todoAdd" class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500" placeholder="add new 2 do" required>
                   <button type="submit" class="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2">Add</button>
               </div>
               <select data-te-select-init id="category" name="category">
                 <option value="">Select Category</option>
                 @foreach ($categories as $data)
                   @if ($data->user_id == auth()->user()->id) 
-                  <option value="{{ $data->id }}">{{ $data->category }}</option>
+                  <option value="{{ $data->id }}">{{ $data->category_name }}</option>
                   @endif
                 @endforeach
               </select>

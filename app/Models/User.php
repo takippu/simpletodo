@@ -45,10 +45,10 @@ class User extends Authenticatable
 
 
     public function todoList(){
-        return $this->hasMany(Todo::class);
+        return $this->hasMany(TodoList::class);
     }
     public function userCats(){
-        return $this->hasMany(UserTodoCategory::class);
+        return $this->hasMany(Category::class);
     }
 
 }
