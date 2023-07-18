@@ -38,58 +38,18 @@
           </div>
         </div>
         <div class="divide-y divide-gray-300/50">
+
           @auth
             
-          <div class="space-y-6 py-8 text-base leading-7 text-gray-600">
-            <p>ur2do list :-</p>
+          <div class="space-y-6 py-6 text-base leading-7 text-gray-600">
             <!--Tabs navigation-->
-            <ul
-              class="mb-5 flex list-none flex-row flex-wrap border-b-0 pl-0"
-              role="tablist"
-              data-te-nav-ref>
-              <li role="presentation" class="flex-auto text-center">
-                <a
-                  href="#tabs-home01"
-                  class="my-2 block border-x-0 border-b-2 border-t-0 border-transparent px-7 pb-3.5 pt-4 text-xs font-medium uppercase leading-tight text-neutral-500 hover:isolate hover:border-transparent hover:bg-neutral-100 focus:isolate focus:border-transparent data-[te-nav-active]:border-primary data-[te-nav-active]:text-primary dark:text-neutral-400 dark:hover:bg-transparent dark:data-[te-nav-active]:border-primary-400 dark:data-[te-nav-active]:text-primary-400"
-                  data-te-toggle="pill"
-                  data-te-target="#tabs-home01"
-                  data-te-nav-active
-                  role="tab"
-                  aria-controls="tabs-home01"
-                  aria-selected="true"
-                  >All</a
-                >
-              </li>
-              @foreach ($categories as $data)
-                @if ($data->user_id == auth()->user()->id) 
-                <li role="presentation">
-                  <a
-                    href="#tabs-{{ $data->id }}"
-                    class="focus:border-transparen my-2 block border-x-0 border-b-2 border-t-0 border-transparent px-7 pb-3.5 pt-4 text-xs font-medium uppercase leading-tight text-neutral-500 hover:isolate hover:border-transparent hover:bg-neutral-100 focus:isolate data-[te-nav-active]:border-primary data-[te-nav-active]:text-primary dark:text-neutral-400 dark:hover:bg-transparent dark:data-[te-nav-active]:border-primary-400 dark:data-[te-nav-active]:text-primary-400"
-                    data-te-toggle="pill"
-                    data-te-target="#tabs-{{ $data->id }}"
-                    role="tab"
-                    aria-controls="tabs-{{ $data->id }}"
-                    aria-selected="false"
-                    >{{ $data->category_name }}</a
-                  >
-                </li>
-                @endif
-              @endforeach
-              <li role="presentation" class="flex-auto text-center">
-                
-                <a
-                  href="#tabs-contact01"
-                  class="my-2 block border-x-0 border-b-2 border-t-0 border-transparent px-0 pb-3.5 pt-4 text-xs font-medium uppercase leading-tight text-neutral-500 hover:isolate hover:border-transparent hover:bg-neutral-100 focus:isolate focus:border-transparent data-[te-nav-active]:border-primary data-[te-nav-active]:text-primary dark:text-neutral-400 dark:hover:bg-transparent dark:data-[te-nav-active]:border-primary-400 dark:data-[te-nav-active]:text-primary-400"
-                  data-te-toggle="modal"
-                  data-te-target="#exampleModal"
-                  data-te-ripple-init
-                  data-te-ripple-color="light"
-                  ><i class="fas fa-plus mr-2"></i></a
-                >
-              </li>
-            </ul>
+
+            @include('index.tabs-nav')
+
+            <!--Category Modal-->
+
             @include('index.category-modal')
+
             <!--Tabs content-->
             <div class="mb-6">
 
@@ -104,24 +64,13 @@
             
           </div>
           <div class="pt-8 text-base font-semibold leading-7">
-            <p class="text-gray-900">i have something to do</p>
-            @if(session()->has('success'))
-                <div class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-gray-200">
-
-                    {{ session()->get('success') }}
-
-                </div>
-            @endif
-            @if(session()->has('successdelete'))
-                <div class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-gray-200">
-
-                    {{ session()->get('successdelete') }}
-
-                </div>
-            @endif
+            <p class="text-gray-500">i have something to do</p>
+            
+            @include('index.session-messages')
+            
             <form action="{{ route('store') }}" method="POST">   
               @csrf
-              <label for="search" class="mb-2 text-sm font-medium text-gray-900 sr-only">Search</label>
+
               <div class="relative">
                   <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -131,14 +80,20 @@
                   <input type="text" id="todoAdd" name="todoAdd" class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500" placeholder="add new 2 do" required>
                   <button type="submit" class="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2">Add</button>
               </div>
-              <select data-te-select-init id="category" name="category">
-                <option value="">Select Category</option>
-                @foreach ($categories as $data)
-                  @if ($data->user_id == auth()->user()->id) 
-                  <option value="{{ $data->id }}">{{ $data->category_name }}</option>
-                  @endif
-                @endforeach
-              </select>
+
+              <p class="text-gray-600 my-3">Custom Options : </p>
+
+              <div class="relative my-3">
+                <select data-te-select-init data-te-select-visible-options="3">
+                  <option value="">Choose Category:</option>
+                  @foreach ($categories as $data)
+                    @if ($data->user_id == auth()->user()->id) 
+                    <option value="{{ $data->id }}">{{ $data->category_name }}</option>
+                    @endif
+                  @endforeach
+                </select>
+              </div>
+
 
             </form>
 
