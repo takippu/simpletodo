@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class TodoCategory extends Model
 {
     use HasFactory;
+    protected $table = 'todo_cats';
+
     protected $fillable = ['category_name', 'todo_id'];
 
     public function categoryTodo(){

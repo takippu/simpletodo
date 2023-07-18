@@ -18,8 +18,12 @@ class TodoController extends Controller
     {
         // $todo = Todo::all();
         if (Auth::check()) {
-            $posts = auth()->user()->todoList()->get();
-            $cats = auth()->user()->userCats()->get();
+            // $posts = auth()->user()->todoList()->get();
+            // $cats = auth()->user()->userCats()->get();
+
+            $posts = Todo::where('user_id', auth()->user()->id)->get();
+            $cats = UserTodoCategory::where('user_id',auth()->user()->id)->get();
+
         }else{
             $posts = null;
             $cats = null;
@@ -71,12 +75,21 @@ class TodoController extends Controller
             'name' => ['required'],
         ]);
     
-        Todo::create([
+        $todo = Todo::create([
             'name' => $request->name,
             'user_id' => auth()->id(),
             'description' => null,
 
         ]);
+
+        $todo->todoCategory()->create([
+            'todo_id' => $todo->id,
+            'category_name' => $todo->name,
+            
+            // Add other relevant category fields here
+        ]);
+
+
         session()->flash('success', 'new things added!');
 
         return redirect('/');
