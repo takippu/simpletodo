@@ -11,8 +11,10 @@
           <form action="{{ route('todos.destroy', $todo_list->id) }}" method="POST">
             @csrf
             @method('DELETE')
-            <button type="submit" class="ml-auto flex-grow text-red-500">
-                <i class="fa-solid fa-trash-can" style="color: #f61e1e;"></i>
+            <button type="submit" class="tooltipTick ml-auto flex-grow text-red-500">
+                {{-- <i class="fa-solid fa-trash-can" style="color: #f61e1e;"></i> --}}
+                <i class="fa-solid fa-check" style="color: #57af55;"></i>
+                <span class="tooltipTicktext">Done</span>
             </button>
           </form>
       </li>

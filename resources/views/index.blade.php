@@ -13,6 +13,33 @@
   Feel free to play with this example if you're just learning, or trash it and
   start from scratch if you know enough to be dangerous. Have fun!
 -->
+<style>
+  .tooltipTick {
+    position: relative;
+    display: inline-block;
+    /* border-bottom: 1px dotted black; */
+  }
+  
+  .tooltipTick .tooltipTicktext {
+    visibility: hidden;
+    width: 70px;
+    background-color: gray;
+    color: #fff;
+    text-align: center;
+    border-radius: 8px;
+    padding: 2px 0;
+    
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+    top: -5px;
+    left: 150%;
+  }
+  
+  .tooltipTick:hover .tooltipTicktext {
+    visibility: visible;
+  }
+  </style>
 <div class="relative flex min-h-screen flex-col justify-center overflow-hidden bg-gray-50 py-6 sm:py-12 ">
     <img src="/img/beams.jpg" alt="" class="absolute left-1/2 top-1/2 max-w-none -translate-x-1/2 -translate-y-1/2" width="1308" />
     <div class="absolute inset-0 bg-[url(/img/grid.svg)] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]"></div>
@@ -84,13 +111,22 @@
               <p class="text-gray-600 my-3">Custom Options : </p>
 
               <div class="relative my-3">
-                <select data-te-select-init data-te-select-visible-options="3">
+                <select data-te-select-init data-te-select-visible-options="3" id="category" name="category">
                   <option value="">Choose Category:</option>
+                  @php
+                      $foundCats = false;
+                  @endphp
                   @foreach ($categories as $data)
                     @if ($data->user_id == auth()->user()->id) 
+                    @php
+                        $foundCats = true;
+                    @endphp
                     <option value="{{ $data->id }}">{{ $data->category_name }}</option>
                     @endif
                   @endforeach
+                  @if (!$foundCats)
+                      no category yey
+                  @endif
                 </select>
               </div>
 

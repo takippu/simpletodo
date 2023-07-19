@@ -128,7 +128,7 @@ class TodoController extends Controller
         $list->delete();
 
         // Optionally, you can return a response or redirect to a specific page
-        return redirect()->back()->with('successdelete', 'List item deleted successfully.');
+        return redirect()->back()->with('successdelete', 'One of your task is completed!');
 
 
     }
