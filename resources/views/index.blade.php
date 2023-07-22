@@ -40,20 +40,52 @@
     visibility: visible;
   }
   </style>
-<div class="relative flex min-h-screen flex-col justify-center overflow-hidden bg-gray-50 py-6 sm:py-12 ">
-    <img src="/img/beams.jpg" alt="" class="absolute left-1/2 top-1/2 max-w-none -translate-x-1/2 -translate-y-1/2" width="1308" />
-    <div class="absolute inset-0 bg-[url(/img/grid.svg)] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]"></div>
-    <div class="relative bg-white px-6 pb-8 pt-10 shadow-xl ring-1 ring-gray-900/5 sm:mx-auto sm:max-w-lg sm:rounded-lg sm:px-10">
+<div class="relative flex min-h-screen flex-col justify-center overflow-hidden bg-gray-50 py-6 sm:py-12 h-600 w-600">
+    <div class="relative bg-white px-6 pb-8 pt-5 shadow-xl ring-1 ring-gray-900/5 sm:mx-auto sm:max-w-lg sm:rounded-lg sm:px-10 h-[600px] w-[600px]">
       <div class="mx-auto max-w-md">
         <!-- <img src="/img/logo.svg" class="h-6" alt="Tailwind Play" /> -->
         <div class="container mx-auto">
-          <div class="flex justify-between items-start">
-            <div class="w-1/2 p-4">
+          
+          <div class="flex flex-row justify-between items-start">
+            <div class="basis-1/2 p-0 ml-1">
               <h2 class="dark:text-dark text-4xl font-bold">Simple2Do</h2>
             </div>
-            <div class="w-1/2 p-4">
-              <h2 class="text-2xl font-bold"></h2>
-      
+            <div class="basis-1/4 p-0 ml-5">
+
+              <!-- Settings Dropdown -->
+              <div class="flex items-center ml-6">
+                <x-dropdown align="right" width="48">
+                    <x-slot name="trigger">
+                        <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
+                            <div>{{ Auth::user()->name }}</div>
+
+                            <div class="ml-1">
+                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                </svg>
+                            </div>
+                        </button>
+                    </x-slot>
+
+                    <x-slot name="content">
+                        {{-- <x-dropdown-link :href="route('profile.edit')">
+                            {{ __('Profile') }}
+                        </x-dropdown-link> --}}
+
+                        <!-- Authentication -->
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+
+                            <x-dropdown-link :href="route('logout')"
+                                    onclick="event.preventDefault();
+                                                this.closest('form').submit();">
+                                {{ __('Log Out') }}
+                            </x-dropdown-link>
+                        </form>
+                    </x-slot>
+                </x-dropdown>
+            </div>
+
             </div>
             @guest
             <div class="p-4">
@@ -76,6 +108,10 @@
             <!--Category Modal-->
 
             @include('index.category-modal')
+
+            <!--Edit Category Modal-->
+
+            @include('index.edit-category-modal')
 
             <!--Tabs content-->
             <div class="mb-6">
@@ -137,7 +173,7 @@
 
           @endauth  
         </div>
-      </div>
+      
     </div>
   </div>
   

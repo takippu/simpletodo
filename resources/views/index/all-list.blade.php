@@ -7,7 +7,14 @@
     <ul class="space-y-4">
       @forelse ($todo as $todo_list)
       <li class="flex justify-between items-center">
-          <p>{{ $todo_list->todo }}</p>
+          <p>{{ $todo_list->todo }} <span class="text-xs font-thin italic ml-3">
+              @if ($todo_list->category == null)
+                (uncategorized)
+              @else
+                ({{ $todo_list->category->category_name }})
+              @endif
+              </span>
+            </p> 
           <form action="{{ route('todos.destroy', $todo_list->id) }}" method="POST">
             @csrf
             @method('DELETE')
