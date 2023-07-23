@@ -153,4 +153,32 @@ class TodoController extends Controller
 
         return redirect('/');
     }
+    //Edit  Category
+    public function editCategory(Request $request, $id)
+    {
+         // Validate the request data
+         $request->validate([
+            'category_name' => 'required|string|max:255',
+        ]);
+
+        // Retrieve the category based on the ID and the currently authenticated user's ID
+        $category = Category::where('id', $id)
+                            ->where('user_id', Auth::id())
+                            ->first();
+
+        // If the category doesn't exist or doesn't belong to the current user, redirect back with an error message
+        if (!$category) {
+            return redirect()->route('index')->with('error', 'Category not found or you do not have permission to update it.');
+        }
+
+        // Update the category's name
+        $category->category_name = $request->input('category_name');
+        $category->save();
+
+        // Redirect to the category index page with a success message
+        // return redirect()->route('categories.index')->with('success', 'Category updated successfully.');
+        session()->flash('success', 'new things added!');
+
+        return redirect('/');
+    }
 }
