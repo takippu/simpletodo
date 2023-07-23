@@ -149,7 +149,7 @@ class TodoController extends Controller
 
 
         ]);
-        session()->flash('success', 'new things added!');
+        session()->flash('successcat', 'new category added!');
 
         return redirect('/');
     }
@@ -177,7 +177,27 @@ class TodoController extends Controller
 
         // Redirect to the category index page with a success message
         // return redirect()->route('categories.index')->with('success', 'Category updated successfully.');
-        session()->flash('success', 'new things added!');
+        session()->flash('success2', 'category edited!');
+
+        return redirect('/');
+    }
+
+    //Delete  Category
+    public function deleteCategory($id)
+    {
+         // Retrieve the category based on the ID and the currently authenticated user's ID
+        $category = Category::where('id', $id)
+                            ->where('user_id', Auth::id())
+                            ->first();
+
+        // If the category doesn't exist or doesn't belong to the current user, redirect back with an error message
+        if (!$category) {
+            return redirect()->route('index')->with('error', 'Category not found or you do not have permission to delete it.');
+        }
+
+        // Delete the category
+        $category->delete();
+        session()->flash('success3', 'category deleted!');
 
         return redirect('/');
     }

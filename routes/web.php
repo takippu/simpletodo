@@ -25,6 +25,7 @@ use Illuminate\Support\Facades\Route;
 Route::delete('/d/{id}', [TodoController::class, 'destroy'])->name('todos.destroy');
 Route::post('/addCategory', [TodoController::class, 'addCategory'])->name('todos-cat.add');
 Route::put('/editCategory/{id}', [TodoController::class, 'editCategory'])->name('todos-cat.editcat');
+Route::delete('/delCategory/{id}', [TodoController::class, 'deleteCategory'])->name('todos-cat.deletecat');
 Route::resource('', TodoController::class );
 
 Route::get('/dashboard', function () {
