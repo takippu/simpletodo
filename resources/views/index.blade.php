@@ -40,8 +40,14 @@
     visibility: visible;
   }
   </style>
-<div class="relative flex min-h-screen flex-col justify-center overflow-hidden bg-gray-50 py-6 sm:py-12 h-600 w-600">
+<div class="relative flex min-h-screen flex-col justify-center overflow-hidden bg-gray-50 py-6 sm:py-12">
+    @guest
+   <div class="relative bg-white px-6 pb-8 pt-5 shadow-xl ring-1 ring-gray-900/5 sm:mx-auto sm:max-w-lg sm:rounded-lg sm:px-10">
+    @endguest
+    @auth
     <div class="relative bg-white px-6 pb-8 pt-5 shadow-xl ring-1 ring-gray-900/5 sm:mx-auto sm:max-w-lg sm:rounded-lg sm:px-10 h-[600px] w-[600px]">
+    @endauth
+    
       <div class="mx-auto max-w-md">
         <!-- <img src="/img/logo.svg" class="h-6" alt="Tailwind Play" /> -->
         <div class="container mx-auto">
@@ -51,7 +57,7 @@
               <h2 class="dark:text-dark text-4xl font-bold">Simple2Do</h2>
             </div>
             <div class="basis-1/4 p-0 ml-5">
-
+              @auth
               <!-- Settings Dropdown -->
               <div class="flex items-center ml-6">
                 <x-dropdown align="right" width="48">
@@ -84,7 +90,8 @@
                         </form>
                     </x-slot>
                 </x-dropdown>
-            </div>
+              </div>
+              @endauth
 
             </div>
             @guest

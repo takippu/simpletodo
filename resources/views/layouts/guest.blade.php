@@ -12,13 +12,39 @@
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
         <!-- Scripts -->
+        <script src="https://cdn.tailwindcss.com/3.3.0"></script>
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        <link
+          href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap"
+          rel="stylesheet" />
+        <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/tw-elements/dist/css/tw-elements.min.css" />
+        
+        <script>
+          tailwind.config = {
+            darkMode: "class",
+            theme: {
+              fontFamily: {
+                sans: ["Roboto", "sans-serif"],
+                body: ["Roboto", "sans-serif"],
+                mono: ["ui-monospace", "monospace"],
+              },
+            },
+            corePlugins: {
+              preflight: false,
+            },
+          };
+        </script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        
     </head>
     <body class="font-sans text-gray-900 antialiased">
         <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
             <div>
                 <a href="/">
-                    <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
+                    {{-- <x-application-logo class="w-20 h-20 fill-current text-gray-500" /> --}}
+                    <h2 class="text-4xl text-transparent bg-clip-text bg-gradient-to-r from-slate-400 to-black"> Simple2Do </h2>
                 </a>
             </div>
 
